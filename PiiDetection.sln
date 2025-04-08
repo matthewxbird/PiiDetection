@@ -1,10 +1,12 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiiDetection", "PiiDetection\PiiDetection.csproj", "{A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiiDetection.Tests", "PiiDetection.Tests\PiiDetection.Tests.csproj", "{B2C3D4E5-F6A7-5B8C-9D0E-1F2A3B4C5D6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiiDetection.Api", "PiiDetection.Api\PiiDetection.Api.csproj", "{76B9679B-ABD1-47B0-9994-10DE792DA30C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{B2C3D4E5-F6A7-5B8C-9D0E-1F2A3B4C5D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C3D4E5-F6A7-5B8C-9D0E-1F2A3B4C5D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2C3D4E5-F6A7-5B8C-9D0E-1F2A3B4C5D6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76B9679B-ABD1-47B0-9994-10DE792DA30C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76B9679B-ABD1-47B0-9994-10DE792DA30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76B9679B-ABD1-47B0-9994-10DE792DA30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76B9679B-ABD1-47B0-9994-10DE792DA30C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -27,4 +33,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3D4E5F6-A7B8-9C0D-1E2F-3A4B5C6D7E8F}
 	EndGlobalSection
-EndGlobal 
+EndGlobal

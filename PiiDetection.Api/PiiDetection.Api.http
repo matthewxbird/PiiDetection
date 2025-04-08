@@ -1,0 +1,6 @@
+@PiiDetection.Api_HostAddress = http://localhost:5105
+
+GET {{PiiDetection.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
