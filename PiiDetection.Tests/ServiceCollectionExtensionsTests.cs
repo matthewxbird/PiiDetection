@@ -1,5 +1,7 @@
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using PiiDetection;
 
 namespace PiiDetection.Tests;
 
@@ -19,10 +21,5 @@ public class ServiceCollectionExtensionsTests
         Assert.NotNull(piiDetectorDescriptor);
         Assert.Equal(ServiceLifetime.Singleton, piiDetectorDescriptor.Lifetime);
         Assert.Equal(typeof(PiiDetector), piiDetectorDescriptor.ImplementationType);
-        
-        var addressDetectorDescriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(PythonAddressDetector));
-        Assert.NotNull(addressDetectorDescriptor);
-        Assert.Equal(ServiceLifetime.Singleton, addressDetectorDescriptor.Lifetime);
-        Assert.Equal(typeof(PythonAddressDetector), addressDetectorDescriptor.ImplementationType);
     }
 } 

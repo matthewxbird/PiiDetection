@@ -47,6 +47,10 @@ public class PiiEntity
         Confidence = confidence;
     }
 
+    /// <summary>
+    /// Returns a string representation of the PII entity
+    /// </summary>
+    /// <returns>A string containing the type, confidence score, text, and position of the PII entity</returns>
     public override string ToString()
     {
         return $"{Type} ({Confidence:F2}): {Text} at position {Start}";

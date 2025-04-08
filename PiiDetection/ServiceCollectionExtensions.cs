@@ -15,7 +15,6 @@ public static class ServiceCollectionExtensions
     /// <returns>The service collection for chaining</returns>
     public static IServiceCollection AddPiiDetection(this IServiceCollection services)
     {
-        services.AddSingleton<PythonAddressDetector>();
         services.AddSingleton<IPiiDetector, PiiDetector>();
         return services;
     }

@@ -1,13 +1,14 @@
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace PiiDetection;
 
 /// <summary>
 /// Detects and masks Personally Identifiable Information (PII) in text using regex patterns
 /// </summary>
-public class PiiDetector
+public class PiiDetector : IPiiDetector
 {
     private readonly ILogger<PiiDetector>? _logger;
 
@@ -25,7 +26,7 @@ public class PiiDetector
     /// </summary>
     /// <param name="text">The text to analyze</param>
     /// <returns>A list of detected PII entities</returns>
-    public IEnumerable<PiiEntity> Detect(string text)
+    public IEnumerable<PiiEntity> DetectPii(string text)
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -33,22 +34,31 @@ public class PiiDetector
         }
 
         var entities = new List<PiiEntity>();
+        _logger?.LogDebug("Analyzing text: {Text}", text);
 
         // Check with regex patterns
         foreach (var pattern in PiiPatterns.Patterns)
         {
             var matches = pattern.Value.Matches(text);
+            _logger?.LogDebug("Pattern {PatternType}: Found {MatchCount} matches with pattern {Pattern}", 
+                pattern.Key, matches.Count, pattern.Value.ToString());
+            
             foreach (Match match in matches)
             {
+                _logger?.LogDebug("Match found: {MatchText} at position {MatchIndex} with length {MatchLength}", 
+                    match.Value, match.Index, match.Length);
+                
                 // For card numbers, validate with Luhn algorithm
-                if (pattern.Key == PiiType.CardNumber && !IsValidLuhn(match.Value))
+                if (pattern.Key == PiiType.CardNumber && !IsValidLuhn(match.Value.Replace(" ", "").Replace("-", "")))
                 {
+                    _logger?.LogDebug("Card number {CardNumber} failed Luhn validation", match.Value);
                     continue;
                 }
 
                 // For IP addresses, validate each octet
                 if (pattern.Key == PiiType.IPAddress && !IsValidIpAddress(match.Value))
                 {
+                    _logger?.LogDebug("IP address {IPAddress} failed validation", match.Value);
                     continue;
                 }
 
@@ -62,6 +72,7 @@ public class PiiDetector
             }
         }
 
+        _logger?.LogDebug("Found {EntityCount} PII entities", entities.Count);
         return entities;
     }
 
@@ -77,13 +88,14 @@ public class PiiDetector
             return text;
         }
 
-        var entities = Detect(text).OrderByDescending(e => e.Start).ToList();
+        var entities = DetectPii(text).OrderByDescending(e => e.Start).ToList();
         var result = text;
 
         foreach (var entity in entities)
         {
+            var mask = new string('*', entity.Length);
             result = result.Remove(entity.Start, entity.Length)
-                         .Insert(entity.Start, new string('*', entity.Length));
+                         .Insert(entity.Start, mask);
         }
 
         return result;
@@ -107,6 +119,9 @@ public class PiiDetector
         // Loop through values starting from the rightmost digit
         for (int i = number.Length - 1; i >= 0; i--)
         {
+            if (!char.IsDigit(number[i]))
+                return false;
+
             int digit = number[i] - '0';
 
             if (isEven)
